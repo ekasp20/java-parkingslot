@@ -6,18 +6,23 @@ public class ParkingLot {
 	private String parkingLotId;
 	private int numberOfFloors;
 	private List<Floor> floors;
+	private int numberOfSlotsPerFloors;
 	
-	public ParkingLot(String parkingLotId, int numberOfFloors) {
+	public ParkingLot(String parkingLotId, int numberOfFloors, int numberOfSlotsPerFloors) {
 		this.parkingLotId = parkingLotId;
 		this.numberOfFloors = numberOfFloors;
+		this.numberOfSlotsPerFloors = numberOfSlotsPerFloors;
 		this.floors = new ArrayList<>();
+		for(int i = 1; i <= numberOfFloors; i++){
+			floors.add(new Floor(Integer.toString(i), numberOfSlotsPerFloors));
+		}
 	}
 	
 	private boolean isSlotTypeCompatible(String slotNumber, String vehicleType) {
 		if (vehicleType.equals("CAR")) {
 			return !slotNumber.equals("1");
 		}else if (vehicleType.equals("BIKE")) {
-			return !slotNumber.equals("1");
+			return !slotNumber.equals("1") && !slotNumber.equals("2");
 		}else if (vehicleType.equals("TRUCK")) {
 			return !slotNumber.equals("1");
 		}
@@ -56,5 +61,38 @@ public class ParkingLot {
 			}
 		}
 		System.out.println("Invalid Ticket");
+	}
+	public void displayFreeCount(String vehicleType) {
+		for (Floor floor : floors) {
+			int count = 0 ;
+			for(Slot slot : floor.getSlots()) {
+				if(slot.getVehicle() == null && isSlotTypeCompatible(slot.getSlotNumber(), vehicleType)) {
+					count++;
+				}
+			}
+			System.out.println("No. of free slots for " + vehicleType + " on floor " + floor.getFloorNumber() + ": " + count);
+		}
+	}
+	public void displayFreeSlots(String vehicleType) {
+		for(Floor floor : floors) {
+			List<String> freeSlots = new ArrayList<>();
+			for(Slot slot : floor.getSlots()) {
+				if(slot.getVehicle() == null && isSlotTypeCompatible(slot.getSlotNumber(), vehicleType)) {
+					freeSlots.add(slot.getSlotNumber());
+				}
+			}
+			System.out.println("Free slots for " + vehicleType + " on Floor " + floor.getFloorNumber() + ": " + String.join(",", freeSlots));
+		}
+	}
+	public void displayOccupiedSlots(String vehicleType) {
+		for(Floor floor : floors) {
+			List<String> occupiedSlots = new ArrayList<>();
+			for (Slot slot : floor.getSlots()) {
+				if(slot.getVehicle() != null && slot.getVehicle().getType().equals(vehicleType)) {
+					occupiedSlots.add(slot.getSlotNumber());
+				}
+			}
+			System.out.println("Occupied slots for " + vehicleType + "on Floor " + floor.getFloorNumber() + ": " + String.join(",", occupiedSlots));
+		}
 	}
 }
