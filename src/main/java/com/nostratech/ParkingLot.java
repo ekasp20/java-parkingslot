@@ -92,7 +92,7 @@ public class ParkingLot {
 					occupiedSlots.add(slot.getSlotNumber());
 				}
 			}
-			System.out.println("Occupied slots for " + vehicleType + "on Floor " + floor.getFloorNumber() + ": " + String.join(",", occupiedSlots));
+			System.out.println("Occupied slots for " + vehicleType + " on Floor " + floor.getFloorNumber() + ": " + String.join(",", occupiedSlots));
 		}
 	}
 }
