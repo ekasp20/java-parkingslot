@@ -7,8 +7,8 @@ public class MainApp {
     Scanner scanner = new Scanner(System.in);
     ParkingLot parkingLot = null;
     
+	System.out.println("Enter command: ");
     while(true) {
-    	System.out.println("Enter command: ");
     	String command = scanner.nextLine();
     	String[] tokens = command.split(" ");
     	
